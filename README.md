@@ -1,8 +1,8 @@
 # AI Backend Projects - LLM Developer Intern Portfolio
 
-🚀 **Portofolio Komprehensif untuk LLM Developer Intern - FXMedia**
 
-Koleksi lengkap project backend AI dengan web interface:
+
+Project backend AI dengan web interface:
 - **3 Backend Services** (RAG, Ollama LLM, Semantic Search)
 - **1 Unified Streamlit Dashboard** untuk showcase semua
 - **Production-ready code** dengan error handling & monitoring
@@ -112,7 +112,7 @@ Koleksi lengkap project backend AI dengan web interface:
 └─────────────────────────────────────────┘
 ```
 
-### **Complete Tech Coverage for FXMedia**
+### **Complete Tech Coverage**
 
 ✅ **Languages**: Python  
 ✅ **Frameworks**: FastAPI, Streamlit  
@@ -190,7 +190,7 @@ cp .env.example .env
 cp .env.example .env
 ```
 
-Default configuration sudah siap, tidak perlu diubah untuk local development.
+Default configuration tidak perlu diubah untuk local development.
 
 ---
 
@@ -237,7 +237,7 @@ streamlit run app.py
 # Access: http://localhost:8501
 ```
 
-### **Option B: Using Shell Script (Coming Soon)**
+### **Option B: Using Shell Script**
 
 ```bash
 bash run_all.sh
@@ -975,7 +975,7 @@ ai-backend-projects/
 
 ## 🤝 Contributing
 
-This is a portfolio project. Feel free to fork and customize!
+Feel free to fork and customize!
 
 **Suggestions:**
 1. Try different embedding models
@@ -1054,9 +1054,8 @@ Setelah project ini, Anda akan understand:
 
 <div style='text-align: center'>
 
-## **Good luck dengan FXMedia! 🚀**
+## **Good luck! 🚀**
 
-Made with ❤️ for LLM Developer Intern position
 
 *Last Updated: 2026-04-29*
 
