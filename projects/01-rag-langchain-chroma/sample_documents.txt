@@ -1,0 +1,19 @@
+Machine Learning adalah cabang dari Artificial Intelligence yang fokus pada pembelajaran dari data.
+
+Deep Learning menggunakan neural networks dengan banyak layer untuk memproses data.
+
+Natural Language Processing (NLP) adalah teknik untuk membuat komputer memahami bahasa manusia.
+
+Retrieval-Augmented Generation (RAG) menggabungkan document retrieval dengan generative models.
+
+Vector Database adalah database yang dioptimalkan untuk menyimpan dan mencari embeddings.
+
+LangChain adalah framework untuk orchestrate aplikasi yang menggunakan Large Language Models.
+
+Ollama adalah tool untuk menjalankan Large Language Models secara lokal tanpa GPU mahal.
+
+Embeddings adalah representasi numerik dari teks yang dapat digunakan untuk similarity search.
+
+Chroma adalah vector database yang ringan dan mudah digunakan untuk development.
+
+Transformers adalah arsitektur neural network yang revolusioner untuk NLP tasks.

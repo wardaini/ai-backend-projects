@@ -1,0 +1,10 @@
+Artificial Intelligence adalah bidang ilmu yang mempelajari cara membuat mesin cerdas.
+Machine Learning adalah subset dari AI yang fokus pada pembelajaran dari data.
+Deep Learning menggunakan neural networks dengan banyak layer untuk pemprosesan data kompleks.
+Natural Language Processing memungkinkan komputer memahami dan memproses bahasa manusia.
+Komputer Vision adalah teknologi untuk membuat mesin memahami konten visual dari gambar dan video.
+Robotics menggabungkan AI dengan mekanik untuk membuat robot yang intelligent.
+Data Science adalah bidang yang menggabungkan statistik, programming, dan domain knowledge.
+Cloud Computing menyediakan infrastruktur computing yang scalable melalui internet.
+Blockchain adalah teknologi distributed ledger untuk transaksi yang aman dan transparan.
+Cybersecurity adalah praktik melindungi sistem dan data dari serangan digital.
