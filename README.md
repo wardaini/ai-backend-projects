@@ -1,299 +1,904 @@
 # AI Backend Projects - LLM Developer Intern Portfolio
 
+🚀 **Portofolio Komprehensif untuk LLM Developer Intern - FXMedia**
 
-Koleksi project backend AI:
-- **RAG Systems** dengan LangChain & Vector Databases
-- **LLM Integration** dengan Ollama & local models
-- **Semantic Search** dengan embeddings dan FAISS
-
----
-
-## 📋 Daftar Project
-
-### 1. **RAG Backend dengan LangChain + Chroma** 
-`projects/01-rag-langchain-chroma/`
-
-**Apa itu RAG?**
-RAG (Retrieval-Augmented Generation) adalah teknik menggabungkan document retrieval dengan LLM untuk jawaban yang lebih kontekstual dan akurat.
-
-**Yang di-cover:**
-- Upload & indexing documents ke Chroma
-- Query dengan semantic search
-- Generate response dari LLM dengan context dari retrieved documents
-- Integration dengan Ollama untuk local LLM
-
-**Tech Stack:**
-- FastAPI (backend)
-- LangChain (orchestration)
-- Chroma (vector database - gratis & local)
-- Ollama (local LLM)
-- Sentence-Transformers (embeddings)
-
-**API Endpoints:**
-```
-POST   /rag/upload-documents    - Upload file untuk indexing
-POST   /rag/query              - Query dengan RAG
-GET    /rag/documents          - List documents yang sudah diindex
-DELETE /rag/reset              - Reset knowledge base
-GET    /health                 - Health check
-```
-
-**Quick Start:**
-```bash
-cd projects/01-rag-langchain-chroma
-pip install -r requirements.txt
-python main.py
-
-# Test dengan curl:
-curl -X POST http://localhost:8000/rag/query \
-  -H "Content-Type: application/json" \
-  -d '{"query": "Apa itu RAG?", "model": "mistral"}'
-```
+Koleksi lengkap project backend AI dengan web interface:
+- **3 Backend Services** (RAG, Ollama LLM, Semantic Search)
+- **1 Unified Streamlit Dashboard** untuk showcase semua
+- **Production-ready code** dengan error handling & monitoring
 
 ---
 
-### 2. **LLM API Backend dengan Ollama Integration**
-`projects/02-ollama-integration/`
+## 📋 Daftar Isi
 
-**Apa yang bisa dilakukan:**
-- Direct chat dengan local LLM models
-- Support multiple Ollama models
-- Streaming responses real-time
-- Conversation history management
-- Model switching on-the-fly
-
-**Tech Stack:**
-- FastAPI (REST API)
-- Ollama (local LLM runtime)
-- Request/Response streaming
-- Python async/await
-
-**API Endpoints:**
-```
-GET    /models                 - List available models
-POST   /chat                   - Chat completion
-POST   /stream                 - Streaming response
-POST   /history                - Get chat history
-DELETE /history/{session_id}   - Clear history
-GET    /health                 - Health check
-```
-
-**Quick Start:**
-```bash
-cd projects/02-ollama-integration
-pip install -r requirements.txt
-
-# Make sure Ollama is running:
-# ollama run mistral
-
-python main.py
-
-# Test:
-curl -X POST http://localhost:8001/chat \
-  -H "Content-Type: application/json" \
-  -d '{
-    "message": "Jelaskan apa itu machine learning",
-    "model": "mistral",
-    "session_id": "user123"
-  }'
-```
+1. [Project Overview](#-project-overview)
+2. [Tech Stack](#-tech-stack)
+3. [Installation & Setup](#-installation--setup)
+4. [Running All Services](#-running-all-services)
+5. [API Endpoints](#-api-endpoints)
+6. [Project Details](#-project-details)
+7. [Web Interface](#-web-interface)
+8. [Architecture](#-architecture)
+9. [Learning Resources](#-learning-resources)
+10. [Troubleshooting](#-troubleshooting)
 
 ---
 
-### 3. **Semantic Search Engine dengan FAISS**
-`projects/03-semantic-search/`
+## 📦 Project Overview
 
-**Apa yang bisa dilakukan:**
-- Upload documents untuk indexing
-- Search berdasarkan semantic similarity (bukan keyword matching)
-- FAISS untuk fast similarity search
-- Embeddings dengan Sentence-Transformers
+### **3 Backend Microservices**
 
-**Tech Stack:**
-- FastAPI (REST API)
-- FAISS (vector search library - gratis & cepat)
-- Sentence-Transformers (embeddings model)
-- NumPy (numerical computation)
+#### 1️⃣ **RAG Backend** (Port 8000)
+- **Technology**: FastAPI, LangChain, Chroma
+- **Purpose**: Retrieval-Augmented Generation untuk contextual AI responses
+- **Features**:
+  - Upload & indexing documents
+  - Semantic search over documents
+  - LLM response generation dengan context
+  - Source citations
 
-**API Endpoints:**
-```
-POST   /search                 - Search documents
-POST   /index/build            - Build index dari file
-POST   /index/add-documents    - Tambah documents ke index
-GET    /index/info             - Info tentang index
-DELETE /index/reset            - Reset index
-GET    /health                 - Health check
-```
+#### 2️⃣ **Ollama LLM Backend** (Port 8001)
+- **Technology**: FastAPI, Ollama, Local LLMs
+- **Purpose**: Direct integration dengan local language models
+- **Features**:
+  - Multi-model support (Mistral, Neural Chat, Llama 2)
+  - Conversation history management
+  - Configurable parameters (temperature, top_p)
+  - Streaming responses
 
-**Quick Start:**
-```bash
-cd projects/03-semantic-search
-pip install -r requirements.txt
-python main.py
+#### 3️⃣ **Semantic Search Backend** (Port 8002)
+- **Technology**: FastAPI, FAISS, Sentence-Transformers
+- **Purpose**: Document search using semantic similarity
+- **Features**:
+  - Fast similarity search dengan FAISS
+  - Embeddings dengan Sentence-Transformers
+  - Scalable indexing
+  - Real-time search
 
-# Upload documents:
-curl -X POST http://localhost:8002/index/build \
-  -F "file=@documents.txt"
+### **Unified Web Interface**
 
-# Search:
-curl -X POST http://localhost:8002/search \
-  -H "Content-Type: application/json" \
-  -d '{"query": "machine learning", "top_k": 5}'
-```
+#### 🎨 **Streamlit Dashboard** (Port 8501)
+- **Technology**: Streamlit, Python
+- **Purpose**: Single interface untuk interact dengan semua 3 backends
+- **Features**:
+  - 4 main tabs (RAG Chat, Direct LLM, Semantic Search, Dashboard)
+  - Real-time health monitoring
+  - Chat history management
+  - Document upload & indexing
+  - System status dashboard
 
 ---
 
-## 🛠️ Setup & Prerequisites
+## 🛠 Tech Stack
 
-### Requirements
+### **Backend Stack**
+```
+┌─────────────────────────────────────────┐
+│           Backend Services              │
+├─────────────────────────────────────────┤
+│ Framework:  FastAPI (async Python)      │
+│ Server:     Uvicorn                     │
+│ APIs:       REST with JSON              │
+│ Validation: Pydantic                    │
+└─────────────────────────────────────────┘
+
+┌─────────────────────────────────────────┐
+│         AI/ML & LLM Stack               │
+├─────────────────────────────────────────┤
+│ Orchestration: LangChain                │
+│ Local LLMs:    Ollama                   │
+│ Embeddings:    Sentence-Transformers    │
+│ Models:        Hugging Face             │
+└─────────────────────────────────────────┘
+
+┌─────────────────────────────────────────┐
+│         Vector Database Stack           │
+├─────────────────────────────────────────┤
+│ Chroma (RAG):      Local vector DB      │
+│ FAISS (Search):    Fast similarity search│
+│ Embeddings:        all-MiniLM-L6-v2    │
+└─────────────────────────────────────────┘
+```
+
+### **Frontend Stack**
+```
+┌─────────────────────────────────────────┐
+│         Web Interface Stack             │
+├─────────────────────────────────────────┤
+│ Framework:   Streamlit                  │
+│ Language:    Python                     │
+│ HTTP:        requests library           │
+│ Port:        8501                       │
+└─────────────────────────────────────────┘
+```
+
+### **Complete Tech Coverage for FXMedia**
+
+✅ **Languages**: Python  
+✅ **Frameworks**: FastAPI, Streamlit  
+✅ **Databases**: Chroma, FAISS, PostgreSQL-ready  
+✅ **AI Tools**: LangChain, LangGraph-ready, Hugging Face, Ollama  
+✅ **APIs**: REST, JSON, streaming  
+✅ **DevTools**: Git, virtual environments, Docker-ready  
+
+---
+
+## 🚀 Installation & Setup
+
+### **Prerequisites**
+
 - Python 3.8+
-- Ollama (untuk Project 1 & 2)
+- Ollama (untuk local LLMs)
 - Git
+- 8GB+ RAM recommended
 
-### Installation
+### **Step 1: Clone Repository**
 
-**1. Clone repository:**
 ```bash
 git clone https://github.com/wardaini/ai-backend-projects.git
 cd ai-backend-projects
 ```
 
-**2. Create virtual environment:**
+### **Step 2: Create Virtual Environment**
+
 ```bash
 python -m venv venv
-source venv/bin/activate  # Linux/Mac
-# atau
-venv\Scripts\activate     # Windows
+
+# Linux/Mac
+source venv/bin/activate
+
+# Windows
+venv\Scripts\activate
 ```
 
-**3. Install Ollama (jika belum):**
-- Download dari: https://ollama.ai
-- Setup model: `ollama pull mistral` atau `ollama pull neural-chat`
-- Run: `ollama serve` (default: localhost:11434)
+### **Step 3: Install Global Dependencies**
 
-**4. Install dependencies untuk semua projects:**
 ```bash
-# Install global requirements
 pip install -r requirements.txt
 ```
 
----
+### **Step 4: Setup Ollama**
 
-## 🚀 Running All Projects
+**Download & Install:**
+- Go to https://ollama.ai
+- Download installer untuk OS Anda
+- Install & run
 
-### Terminal 1 - Ollama (jika ada Project 1 & 2)
+**Pull Models:**
 ```bash
-ollama serve
+# Model yang direkomendasikan
+ollama pull mistral
+
+# Optional - model lain
+ollama pull neural-chat
+ollama pull llama2
 ```
 
-### Terminal 2 - Project 1 (RAG)
+**Verify Installation:**
+```bash
+# Test Ollama API
+curl http://localhost:11434/api/tags
+```
+
+### **Step 5: Setup Environment Variables**
+
+```bash
+# Copy .env.example ke .env di setiap project folder
+cp .env.example .env
+
+# Atau setup global
+cp .env.example .env
+```
+
+Default configuration sudah siap, tidak perlu diubah untuk local development.
+
+---
+
+## 🎯 Running All Services
+
+### **Option A: Manual Setup (5 Terminals)**
+
+**Terminal 1 - Ollama Server:**
+```bash
+ollama serve
+# Output: Listening on 127.0.0.1:11434
+```
+
+**Terminal 2 - RAG Backend:**
 ```bash
 cd projects/01-rag-langchain-chroma
 python main.py
-# Running on http://localhost:8000
+# Output: Application startup complete
+# Access: http://localhost:8000/docs
 ```
 
-### Terminal 3 - Project 2 (Ollama Integration)
+**Terminal 3 - Ollama LLM Backend:**
 ```bash
 cd projects/02-ollama-integration
 python main.py
-# Running on http://localhost:8001
+# Output: Application startup complete
+# Access: http://localhost:8001/docs
 ```
 
-### Terminal 4 - Project 3 (Semantic Search)
+**Terminal 4 - Semantic Search Backend:**
 ```bash
 cd projects/03-semantic-search
 python main.py
-# Running on http://localhost:8002
+# Output: Application startup complete
+# Access: http://localhost:8002/docs
+```
+
+**Terminal 5 - Streamlit Web:**
+```bash
+cd streamlit_app
+pip install -r requirements.txt
+streamlit run app.py
+# Output: You can now view your Streamlit app in your browser
+# Access: http://localhost:8501
+```
+
+### **Option B: Using Shell Script (Coming Soon)**
+
+```bash
+bash run_all.sh
+```
+
+### **Verify All Services Running**
+
+```bash
+# Health check semua services
+curl http://localhost:8000/health
+curl http://localhost:8001/health
+curl http://localhost:8002/health
+
+# Akses Streamlit dashboard
+open http://localhost:8501
 ```
 
 ---
 
-## 📚 Learning Resources & Implementation Details
+## 📡 API Endpoints
 
-### RAG (Retrieval-Augmented Generation)
-**Alur kerja:**
-1. User upload dokumen
-2. Sistem chunking dokumen menjadi bagian-bagian kecil
-3. Create embeddings untuk setiap chunk
-4. Store embeddings di vector DB (Chroma)
-5. Saat user query:
-   - Create embedding dari query
-   - Search similar chunks dari vector DB
-   - Pass chunks + query ke LLM
-   - LLM generate response dengan context
+### **RAG Backend (Port 8000)**
 
-**Keuntungan RAG:**
-- LLM dapat akses informasi terbaru
-- Mengurangi hallucination (jawaban asal-asalan)
-- Lebih cost-effective daripada fine-tuning
-- Mudah update knowledge base
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/rag/upload-documents` | Upload & index documents |
+| POST | `/rag/query` | Query dengan RAG |
+| GET | `/rag/documents` | List indexed documents |
+| DELETE | `/rag/reset` | Reset knowledge base |
+| GET | `/health` | Health check |
+| GET | `/docs` | Interactive API docs |
 
-### Vector Databases & Embeddings
-**Konsep:**
-- **Embedding**: Representasi teks dalam bentuk numerik (vector)
-- **Semantic Similarity**: Mengukur kesamaan makna antar teks
-- **Vector DB**: Database yang dioptimalkan untuk similarity search
-
-**Perbandingan Vector DB gratis:**
-| Database | Local | Setup | Speed | Use Case |
-|----------|-------|-------|-------|----------|
-| **Chroma** | ✅ | Easy | Fast | Development, prototyping |
-| **FAISS** | ✅ | Easy | Very Fast | Large-scale search |
-| **Weaviate** | ✅ | Medium | Fast | Production-ready |
-| **Pinecone** | ❌ | Very Easy | Very Fast | Cloud-hosted |
-
-### LangChain
-**Apa itu LangChain:**
-- Framework untuk orchestrate LLM applications
-- Menyediakan tools untuk chain multiple LLM calls
-- Support berbagai models & tools
-
-**Komponen utama:**
-- **Models**: Interface ke berbagai LLM
-- **Prompts**: Template untuk struktur input
-- **Chains**: Urutan operasi yang terikat
-- **Tools**: Integrasi dengan external APIs
-- **Memory**: Menyimpan conversation history
-
----
-
-## 🔧 API Testing
-
-### Menggunakan cURL
+**Example Request:**
 ```bash
-# Test RAG
 curl -X POST http://localhost:8000/rag/query \
   -H "Content-Type: application/json" \
-  -d '{"query": "Apa itu AI?", "model": "mistral"}'
+  -d '{
+    "query": "Apa itu machine learning?",
+    "model": "mistral",
+    "k": 3
+  }'
+```
 
-# Test Ollama LLM
+### **Ollama LLM Backend (Port 8001)**
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/models` | List available models |
+| POST | `/chat` | Chat completion |
+| POST | `/stream` | Streaming response |
+| GET | `/history/{session_id}` | Get conversation history |
+| DELETE | `/history/{session_id}` | Clear history |
+| GET | `/health` | Health check |
+| GET | `/docs` | Interactive API docs |
+
+**Example Request:**
+```bash
 curl -X POST http://localhost:8001/chat \
   -H "Content-Type: application/json" \
-  -d '{"message": "Hello", "model": "mistral", "session_id": "test"}'
+  -d '{
+    "message": "Jelaskan Python",
+    "model": "mistral",
+    "session_id": "user123",
+    "temperature": 0.7
+  }'
+```
 
-# Test Semantic Search
+### **Semantic Search Backend (Port 8002)**
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/search` | Search documents |
+| POST | `/index/build` | Build index from file |
+| POST | `/index/add-documents` | Add documents to index |
+| GET | `/index/info` | Get index information |
+| DELETE | `/index/reset` | Reset index |
+| GET | `/health` | Health check |
+| GET | `/docs` | Interactive API docs |
+
+**Example Request:**
+```bash
 curl -X POST http://localhost:8002/search \
   -H "Content-Type: application/json" \
-  -d '{"query": "search term", "top_k": 5}'
+  -d '{
+    "query": "machine learning",
+    "top_k": 5
+  }'
 ```
 
-### Menggunakan Postman
-1. Import collection dari `postman_collection.json`
-2. Set environment variables
-3. Run requests
+### **API Documentation**
 
-### Menggunakan Python
-```python
-import requests
+Setiap service punya interactive Swagger docs:
+- RAG: http://localhost:8000/docs
+- LLM: http://localhost:8001/docs
+- Search: http://localhost:8002/docs
 
-# RAG Query
-response = requests.post(
-    "http://localhost:8000/rag/query",
-    json={"query": "Your question here", "model": "mistral"}
-)
-print(response.json())
+---
+
+## 📚 Project Details
+
+### **Project 1: RAG Backend dengan LangChain + Chroma**
+
+**Location:** `projects/01-rag-langchain-chroma/`
+
+**Architecture:**
 ```
+┌──────────────────────────────────────┐
+│   User Upload Documents              │
+└──────────────────┬───────────────────┘
+                   │
+                   ▼
+┌──────────────────────────────────────┐
+│   Document Chunking & Processing     │
+│   (RecursiveCharacterTextSplitter)   │
+└──────────────────┬───────────────────┘
+                   │
+                   ▼
+┌──────────────────────────────────────┐
+│   Create Embeddings                  │
+│   (HuggingFaceEmbeddings)            │
+└──────────────────┬───────────────────┘
+                   │
+                   ▼
+┌──────────────────────────────────────┐
+│   Store in Vector DB (Chroma)        │
+│   with Persistence                   │
+└──────────────────┬───────────────────┘
+                   │
+        ┌──────────┴──────────┐
+        │                     │
+        ▼                     ▼
+   User Query         Retrieved Context
+        │                     │
+        └──────────┬──────────┘
+                   │
+                   ▼
+┌──────────────────────────────────────┐
+│   LLM (Ollama) Generate Response     │
+│   with Retrieved Context             │
+└──────────────────┬───────────────────┘
+                   │
+                   ▼
+┌──────────────────────────────────────┐
+│   Response + Source Citations        │
+│   Return to User                     │
+└──────────────────────────────────────┘
+```
+
+**Key Components:**
+- **Document Loader**: Load text files
+- **Text Splitter**: Chunk documents dengan overlap
+- **Embeddings**: Convert text to vectors
+- **Vector Store**: Chroma for persistence
+- **Retriever**: Semantic similarity search
+- **LLM Chain**: LangChain RetrievalQA chain
+
+**Use Cases:**
+- Customer support Q&A
+- Knowledge base search
+- Document analysis
+- FAQ automation
+
+**Setup:**
+```bash
+cd projects/01-rag-langchain-chroma
+pip install -r requirements.txt
+python main.py
+```
+
+---
+
+### **Project 2: Ollama LLM Integration**
+
+**Location:** `projects/02-ollama-integration/`
+
+**Architecture:**
+```
+┌──────────────────────────────────────┐
+│   Streamlit Web Interface            │
+└──────────────────┬───────────────────┘
+                   │ HTTP Request
+                   ▼
+┌──────────────────────────────────────┐
+│   FastAPI LLM Backend                │
+│   (Session Management)               │
+└──────────────────┬───────────────────┘
+                   │ Ollama API Call
+                   ▼
+┌──────────────────────────────────────┐
+│   Ollama Server (Port 11434)         │
+│   Running Local LLM                  │
+│   (Mistral, Neural Chat, etc)        │
+└──────────────────┬───────────────────┘
+                   │
+                   ▼
+┌──────────────────────────────────────┐
+│   LLM Response Generation            │
+│   with Conversation History          │
+└──────────────────┬───────────────────┘
+                   │
+                   ▼
+┌──────────────────────────────────────┐
+│   Stream/Return Response to User     │
+└──────────────────────────────────────┘
+```
+
+**Key Features:**
+- **Multi-Model Support**: Switch between Mistral, Neural Chat, Llama 2
+- **Conversation History**: Keep context across messages
+- **Parameter Control**: Temperature, top_p tuning
+- **Session Management**: Track multiple conversations
+- **Streaming**: Real-time response streaming (optional)
+
+**Available Models:**
+
+| Model | Size | Speed | Use Case |
+|-------|------|-------|----------|
+| mistral | 7B | ⚡ Fast | General purpose |
+| neural-chat | 7B | ⚡ Fast | Conversation |
+| llama2 | 7B-70B | ⏱ Medium | High quality |
+| orca-mini | 3B | ⚡⚡ Very Fast | Quick responses |
+
+**Setup:**
+```bash
+cd projects/02-ollama-integration
+pip install -r requirements.txt
+python main.py
+```
+
+**Available Models Reference:**
+Lihat `projects/02-ollama-integration/models.md` untuk dokumentasi lengkap.
+
+---
+
+### **Project 3: Semantic Search Engine**
+
+**Location:** `projects/03-semantic-search/`
+
+**Architecture:**
+```
+┌──────────────────────────────────────┐
+│   Upload Documents                   │
+└──────────────────┬───────────────────┘
+                   │
+                   ▼
+┌──────────────────────────────────────┐
+│   Create Embeddings                  │
+│   (Sentence-Transformers)            │
+│   all-MiniLM-L6-v2 (384 dims)       │
+└──────────────────┬───────────────────┘
+                   │
+                   ▼
+┌──────────────────────────────────────┐
+│   Build FAISS Index                  │
+│   L2 (Euclidean) Distance            │
+└──────────────────┬───────────────────┘
+                   │
+                   ▼
+┌──────────────────────────────────────┐
+│   Persist to Disk                    │
+│   (semantic_search.index)            │
+└──────────────────┬───────────────────┘
+                   │
+        ┌──────────┴──────────┐
+        │                     │
+        ▼                     ▼
+   User Search Query    Retrieve Embeddings
+        │                     │
+        └──────────┬──────────┘
+                   │
+                   ▼
+┌──────────────────────────────────────┐
+│   FAISS Similarity Search            │
+│   (Fast Vector Search)               │
+└���─────────────────┬───────────────────┘
+                   │
+                   ▼
+┌──────────────────────────────────────┐
+│   Ranked Results by Score (0-1)      │
+│   Return to User                     │
+└──────────────────────────────────────┘
+```
+
+**Key Features:**
+- **Fast Similarity Search**: FAISS indexing
+- **Semantic Understanding**: Sentence-Transformers embeddings
+- **Persistence**: Save/load indices
+- **Scalability**: Handle large document sets
+- **Similarity Scoring**: 0-1 relevance scores
+
+**Embedding Model:**
+- **Model**: all-MiniLM-L6-v2
+- **Dimensions**: 384
+- **Speed**: Very fast
+- **Size**: ~22MB
+- **Use**: General purpose semantic search
+
+**Setup:**
+```bash
+cd projects/03-semantic-search
+pip install -r requirements.txt
+python main.py
+```
+
+---
+
+## 🎨 Web Interface
+
+### **Streamlit Dashboard**
+
+**Location:** `streamlit_app/`
+
+**How to Run:**
+```bash
+cd streamlit_app
+pip install -r requirements.txt
+streamlit run app.py
+# Open: http://localhost:8501
+```
+
+### **Features**
+
+#### **Tab 1: 🔍 RAG Chat**
+- Upload documents untuk indexing
+- Real-time document counter
+- Chat interface dengan source citations
+- View documents dalam expander
+- Clear chat history button
+
+**Workflow:**
+1. Upload .txt file
+2. Wait for indexing (chunks akan diproses)
+3. Type pertanyaan
+4. Lihat jawaban + sources
+
+#### **Tab 2: 💬 Direct LLM Chat**
+- Model selector dropdown
+- Temperature slider (0.0 - 1.0)
+- Top P slider (0.0 - 1.0)
+- Active sessions counter
+- Available models display
+- Conversation history
+- Clear chat button
+
+**Workflow:**
+1. Select model dari dropdown
+2. Adjust parameters jika perlu
+3. Type message
+4. Send & wait for response
+5. History otomatis tersimpan
+
+#### **Tab 3: 🔎 Semantic Search**
+- Build index dari documents
+- Real-time index status
+- Search dengan semantic similarity
+- Top K results selector (1-10)
+- Similarity score display
+- Expandable results
+
+**Workflow:**
+1. Upload .txt file dengan documents
+2. Click "Build Index"
+3. Wait for embeddings to be created
+4. Type search query
+5. View ranked results dengan scores
+
+#### **Tab 4: 📊 Dashboard**
+- Status semua 3 backends (online/offline)
+- API endpoints list
+- Health check info
+- Tech stack display
+- Quick start instructions
+- Setup guide
+
+**Displays:**
+- Ollama running status
+- Number of active sessions
+- Available models
+- Index ready status
+- API documentation links
+
+---
+
+## 🏗 Architecture
+
+### **Overall System Architecture**
+
+```
+┌───────────────────────────────────────────────────────────┐
+│                   Users                                   │
+└─────────────────────────┬─────────────────────────────────┘
+                          │
+                          ▼
+┌───────────────────────────────────────────────────────────┐
+│          Streamlit Web Interface (Port 8501)              │
+│  ┌─────────────────────────────────────────────────────┐  │
+│  │ RAG Chat │ LLM Chat │ Search │ Dashboard           │  │
+│  └────┬──────────┬────────────┬───────────┬───────────┘  │
+└──────┼──────────┼────────────┼───────────┼───────────────┘
+       │          │            │           │
+       ▼          ▼            ▼           ▼
+   ┌───────────────────────────────────────────────┐
+   │       Microservices (FastAPI Backends)       │
+   ├───────────────────────────────────────────────┤
+   │                                               │
+   │  RAG Backend  │  LLM Backend  │  Search      │
+   │  (Port 8000)  │  (Port 8001)  │  (Port 8002) │
+   │                                               │
+   └──────────┬─────────────────┬─────────────┬───┘
+              │                 │             │
+              ▼                 ▼             ▼
+         ┌────────────────────────────────────────────┐
+         │    AI/ML & Storage Layer                   │
+         ├────────────────────────────────────────────┤
+         │                                            │
+         │  Chroma (Vector DB)  │  FAISS (Search)    │
+         │  LangChain           │  Sentence-Trans.   │
+         │  Ollama (Port 11434) │  Embeddings        │
+         │                                            │
+         └────────────────────────────────────────────┘
+```
+
+### **Data Flow Examples**
+
+**RAG Query Flow:**
+```
+User Input
+    ↓
+Streamlit Web
+    ↓
+RAG Backend (Port 8000)
+    ↓
+Document Search (Chroma)
+    ↓
+LLM (Ollama)
+    ↓
+Response + Sources
+    ↓
+Streamlit Display
+```
+
+**LLM Chat Flow:**
+```
+User Message
+    ↓
+Streamlit Web
+    ↓
+LLM Backend (Port 8001)
+    ↓
+Ollama Server (Port 11434)
+    ↓
+Model Response
+    ↓
+Streamlit Display
+```
+
+**Semantic Search Flow:**
+```
+User Query
+    ↓
+Streamlit Web
+    ↓
+Search Backend (Port 8002)
+    ↓
+Create Query Embedding
+    ↓
+FAISS Index Search
+    ↓
+Rank by Similarity
+    ↓
+Streamlit Display Results
+```
+
+---
+
+## 📚 Learning Resources
+
+### **Concepts**
+
+**RAG (Retrieval-Augmented Generation)**
+- Combines information retrieval dengan generative AI
+- Gives LLMs access to external knowledge
+- Reduces hallucinations
+- Keeps knowledge updated
+- [Read More](https://python.langchain.com/docs/use_cases/question_answering/)
+
+**Vector Databases**
+- Store embeddings untuk fast similarity search
+- Enable semantic understanding
+- Support different distance metrics
+- [FAISS Docs](https://faiss.ai/)
+- [Chroma Docs](https://docs.trychroma.com/)
+
+**LangChain**
+- Framework untuk orchestrate LLM applications
+- Provides abstractions untuk models, prompts, chains
+- Integrates dengan 100+ tools
+- [Docs](https://python.langchain.com/)
+
+**Embeddings & Semantic Similarity**
+- Convert text to numerical vectors
+- Measure semantic meaning
+- Enable reasoning over text
+- [Sentence-Transformers](https://www.sbert.net/)
+
+### **Official Documentation**
+
+- [LangChain Documentation](https://python.langchain.com/)
+- [Ollama GitHub](https://github.com/ollama/ollama)
+- [Chroma Documentation](https://docs.trychroma.com/)
+- [FAISS](https://faiss.ai/)
+- [FastAPI Tutorial](https://fastapi.tiangolo.com/)
+- [Streamlit Docs](https://docs.streamlit.io/)
+- [Sentence-Transformers](https://www.sbert.net/)
+
+### **Interview Preparation Tips**
+
+1. **Understand RAG Architecture**
+   - Explain alur dari upload → indexing → query
+   - Know trade-offs vector DBs
+   - Chunking strategies
+
+2. **Know LangChain Patterns**
+   - Chains, agents, memory
+   - Prompt engineering
+   - Tool integration
+
+3. **Backend Fundamentals**
+   - REST API design
+   - Async/await patterns
+   - Error handling
+
+4. **Experimentation Mindset**
+   - Try different models
+   - Benchmark performance
+   - Optimize parameters
+
+---
+
+## 🔧 Troubleshooting
+
+### **Ollama Connection Error**
+
+**Problem:**
+```
+Error: Connection refused to http://localhost:11434
+```
+
+**Solution:**
+```bash
+# Make sure Ollama is running
+ollama serve
+
+# Verify in another terminal
+curl http://localhost:11434/api/tags
+```
+
+### **Model Not Found**
+
+**Problem:**
+```
+Error: model 'mistral' not found
+```
+
+**Solution:**
+```bash
+# Pull the model
+ollama pull mistral
+
+# List available models
+ollama list
+```
+
+### **Port Already in Use**
+
+**Problem:**
+```
+Error: Address already in use: ('0.0.0.0', 8000)
+```
+
+**Solution:**
+```bash
+# Find process using port 8000
+lsof -i :8000
+
+# Kill process
+kill -9 <PID>
+
+# Or use different port
+python main.py --port 8003
+```
+
+### **FAISS Index Error**
+
+**Problem:**
+```
+Error: Cannot read index
+```
+
+**Solution:**
+```bash
+# Reset index
+curl -X DELETE http://localhost:8002/index/reset
+
+# Or manually delete files
+rm semantic_search.index
+rm documents_metadata.json
+```
+
+### **Memory Issues**
+
+**Problem:**
+```
+MemoryError: Unable to allocate 4.5 GiB for array
+```
+
+**Solution:**
+- Use smaller models (orca-mini instead of llama2-70b)
+- Reduce chunk sizes
+- Use FAISS instead of Chroma
+
+### **Dependency Conflicts**
+
+**Problem:**
+```
+Error: conflicting requirements
+```
+
+**Solution:**
+```bash
+# Fresh install
+rm -rf venv
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt --force-reinstall
+```
+
+---
+
+## 📊 Performance Metrics
+
+### **Expected Response Times**
+
+| Operation | Time | Model/Method |
+|-----------|------|---------------|
+| RAG Query | 2-5s | Mistral + Chroma |
+| LLM Response | 5-15s | Mistral (7B) |
+| Semantic Search | 100-500ms | FAISS |
+| Document Indexing | 1-3s | 10 documents |
+
+*Times may vary based on hardware*
+
+### **Resource Requirements**
+
+| Service | RAM | Disk | GPU |
+|---------|-----|------|-----|
+| Ollama (mistral) | 4-6GB | 5GB | Optional |
+| Chroma | 1-2GB | 2GB | N/A |
+| FAISS | 0.5-1GB | 0.5GB | N/A |
+| Streamlit | 0.5GB | 0.5GB | N/A |
+| **Total** | **8-10GB** | **10GB** | Optional |
 
 ---
 
@@ -317,61 +922,66 @@ ai-backend-projects/
 │       ├── requirements.txt
 │       ├── .env.example
 │       └── sample_documents.txt
+│
+├── streamlit_app/
+│   ├── app.py
+│   ├── requirements.txt
+│   ├── .streamlit/
+│   │   └── config.toml
+│   └── .env.example
+│
 ├── requirements.txt
-├── README.md
-└── .gitignore
+├── .env.example
+├── .gitignore
+└── README.md
 ```
 
 ---
 
-## 🎯 Tech Stack yang Dicovered
+## 🚀 Next Steps & Improvements
 
-✅ **Backend**: FastAPI, Python async/await  
-✅ **AI/ML**: LangChain, Ollama, Sentence-Transformers  
-✅ **Vector Databases**: Chroma, FAISS  
-✅ **APIs**: REST, JSON, streaming responses  
-✅ **Database Integration**: File-based storage, in-memory indexing  
-✅ **DevTools**: Git, virtual environments, requirements.txt  
+### **Current Features** ✅
+- 3 working backends
+- Unified Streamlit interface
+- Full documentation
+- Health monitoring
+- Error handling
+
+### **Future Enhancements** 📋
+
+**Backend Improvements:**
+- [ ] Add LangGraph support for complex workflows
+- [ ] Implement Neo4J for graph RAG
+- [ ] Add Pinecone integration
+- [ ] Multi-user authentication
+- [ ] Database persistence (PostgreSQL)
+- [ ] Rate limiting & caching
+- [ ] Docker containerization
+
+**Frontend Improvements:**
+- [ ] Mobile-responsive design
+- [ ] Advanced visualizations (embeddings plot)
+- [ ] Document upload with drag-drop
+- [ ] Export conversations
+- [ ] Admin dashboard
+
+**Deployment:**
+- [ ] Docker Compose setup
+- [ ] Kubernetes manifests
+- [ ] CI/CD pipeline
+- [ ] Cloud deployment (AWS/GCP)
 
 ---
 
+## 🤝 Contributing
 
-## 📖 Learning Resources
+This is a portfolio project. Feel free to fork and customize!
 
-- [LangChain Documentation](https://python.langchain.com/)
-- [Ollama GitHub](https://github.com/ollama/ollama)
-- [Chroma Documentation](https://docs.trychroma.com/)
-- [FAISS Documentation](https://faiss.ai/)
-- [FastAPI Tutorial](https://fastapi.tiangolo.com/)
-- [Sentence-Transformers](https://www.sbert.net/)
-
----
-
-## 📞 Troubleshooting
-
-**Problem: "Ollama connection refused"**
-```bash
-# Make sure Ollama is running
-ollama serve
-```
-
-**Problem: "Model not found in Ollama"**
-```bash
-# Pull model first
-ollama pull mistral
-```
-
-**Problem: "FAISS index error"**
-```bash
-# Reset index
-curl -X DELETE http://localhost:8002/index/reset
-```
-
-**Problem: "Import error for dependencies"**
-```bash
-# Reinstall requirements
-pip install -r requirements.txt --force-reinstall
-```
+**Suggestions:**
+1. Try different embedding models
+2. Experiment with LangChain patterns
+3. Add new vector databases
+4. Implement new UI features
 
 ---
 
@@ -381,4 +991,73 @@ Open source untuk educational purposes.
 
 ---
 
-**Happy learning & good luck! 🎯**
+## 📞 Support & Contact
+
+- **GitHub**: https://github.com/wardaini/ai-backend-projects
+- **Issues**: Open an issue untuk bugs/questions
+
+---
+
+## 🎓 Learning Outcomes
+
+Setelah project ini, Anda akan understand:
+
+✅ **Backend Architecture**
+- REST API design dengan FastAPI
+- Async/await patterns
+- Microservices approach
+- Error handling & validation
+
+✅ **AI/ML Concepts**
+- RAG systems
+- LLM integration
+- Embeddings & vector search
+- Prompt engineering
+
+✅ **Vector Databases**
+- Chroma for persistence
+- FAISS for fast search
+- Embeddings generation
+- Similarity scoring
+
+✅ **Web Development**
+- Streamlit frameworks
+- API integration
+- State management
+- UI/UX patterns
+
+✅ **DevOps & Deployment**
+- Virtual environments
+- Dependency management
+- Multi-service orchestration
+- Health monitoring
+
+---
+
+## 🎯 For FXMedia Interview
+
+**Show & Tell:**
+1. Run all services
+2. Demo RAG chat
+3. Show Semantic search speed
+4. Explain architecture
+5. Ask about future enhancements
+
+**Key Talking Points:**
+- "I built this to showcase full-stack AI development"
+- "All services are modular and scalable"
+- "Uses production-grade tools (FastAPI, LangChain, FAISS)"
+- "Integrated with local Ollama for privacy"
+- "Ready to extend with LangGraph & Neo4J"
+
+---
+
+<div style='text-align: center'>
+
+## **Good luck dengan FXMedia! 🚀**
+
+Made with ❤️ for LLM Developer Intern position
+
+*Last Updated: 2026-04-29*
+
+</div>
