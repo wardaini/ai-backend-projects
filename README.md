@@ -1,8 +1,7 @@
 # AI Backend Projects - LLM Developer Intern Portfolio
 
-🚀 **Portofolio untuk LLM Developer Intern - FXMedia**
 
-Koleksi project backend AI yang showcase skill-skill untuk posisi LLM Developer Intern:
+Koleksi project backend AI:
 - **RAG Systems** dengan LangChain & Vector Databases
 - **LLM Integration** dengan Ollama & local models
 - **Semantic Search** dengan embeddings dan FAISS
@@ -336,47 +335,6 @@ ai-backend-projects/
 
 ---
 
-## 💡 Tips untuk FXMedia Interview
-
-1. **Pahami RAG Architecture**
-   - Bisa jelaskan alur dari upload → query → response
-   - Tahu trade-offs antara vector databases
-
-2. **LangChain Best Practices**
-   - Error handling yang baik
-   - Proper prompting techniques
-   - Memory management
-
-3. **Performance Optimization**
-   - Chunking strategies untuk documents
-   - Index optimization untuk search
-   - Caching untuk response yang sering diakses
-
-4. **Backend Fundamentals**
-   - REST API design yang clean
-   - Error handling & validation
-   - Async operations untuk performance
-
-5. **Experimentation Mindset**
-   - Try different models
-   - Test various embeddings
-   - Benchmark performance
-
----
-
-## 🚀 Next Steps
-
-1. **Clone & Setup** repository ini locally
-2. **Run semua projects** dan test endpoints
-3. **Modifikasi & experiment**:
-   - Try different Ollama models
-   - Customize RAG prompts
-   - Optimize search parameters
-4. **Deploy ke cloud** (optional):
-   - Railway, Render, atau Heroku
-5. **Share portfolio** dengan recruiter!
-
----
 
 ## 📖 Learning Resources
 
@@ -423,4 +381,4 @@ Open source untuk educational purposes.
 
 ---
 
-**Happy learning & good luck with FXMedia! 🎯**
+**Happy learning & good luck! 🎯**
