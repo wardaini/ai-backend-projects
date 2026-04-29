@@ -1,4 +1,4 @@
-# AI Backend Projects - LLM Developer Intern Portfolio
+# AI Backend Projects
 
 
 
