@@ -1,4 +1,4 @@
-# AI Backend Projects
+# AI Projects
 
 
 
