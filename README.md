@@ -2,7 +2,7 @@
 
 
 
-Project backend AI dengan web interface:
+Project Frontend - backend AI dengan web interface:
 - **3 Backend Services** (RAG, Ollama LLM, Semantic Search)
 - **1 Unified Streamlit Dashboard** untuk showcase semua
 - **Production-ready code** dengan error handling & monitoring
