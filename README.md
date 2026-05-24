@@ -1,4 +1,4 @@
-# AI Projects
+# AI Projects 3in1
 
 
 
